@@ -1,6 +1,6 @@
 const express = require("express");
 const Router = express.Router();
-const PostSchema = require("../model/post");
+const EventSchema = require("../model/event");
 
 Router.post("/create", async (req, res) => {
   const data = req.body;
@@ -9,25 +9,27 @@ Router.post("/create", async (req, res) => {
     if (!data) {
       return res.status(400).json({
         success: false,
-        message: "Tạo bài tuyển dụng không thành công",
+        message: "Tạo sự kiện không thành công",
       });
     }
-    const newPost = new PostSchema(data);
-    await newPost.save();
+    const newEvent = new EventSchema(data);
+    await newEvent.save();
     return res.status(200).json({
       success: true,
-      message: "Tạo bài tuyển dụng thành công",
-      post: newPost,
+      message: "Tạo sự kiện thành công",
+      event: newEvent,
     });
   } catch (err) {
     console.log(err);
     return res.status(400).json({
       success: false,
-      message: "Tạo bài tuyển dụng không thành công",
-      post: newPost,
+      message: "Tạo sự kiện không thành công",
+      event: newEvent,
     });
   }
 });
+
+
 
 //get post by id
 

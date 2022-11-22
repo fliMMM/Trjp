@@ -53,7 +53,7 @@ Router.post("/register", async (req, res) => {
     console.log(err);
     return res
       .status(400)
-      .json({ success: false, message: "Đăng nhập không thành công!" });
+      .json({ success: false, message: "Đăng kí không thành công!" });
   }
 });
 
