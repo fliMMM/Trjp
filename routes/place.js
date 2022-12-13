@@ -58,7 +58,7 @@ Router.post("/get-place", async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "thành công",
-      data: places,
+      data: places.slice(0,10),
     });
     
   } catch (err) {
