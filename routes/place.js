@@ -49,6 +49,28 @@ Router.post("/create", async (req, res) => {
   }
 });
 
+Router.post("/update", async (req, res) => {
+  const id = req.body.id
+  const needUpdate = req.body.needUpdate;
+  console.log(needUpdate);
+
+  try {
+    const place = await PlaceSchema.findByIdAndUpdate(id, needUpdate);
+    return res.status(200).json({
+      success: true,
+      message: "thành công",
+      data: place,
+    });
+    
+  } catch (err) {
+    console.log(err);
+     return res.status(400).json({
+      success: false,
+      message: "lay danh sach dia diem không thành công",
+    });
+  }
+})
+
 Router.post("/get-place", async (req, res) => {
   const cityId = req.body.cityId;
   const type = req.body.type;
