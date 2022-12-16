@@ -28,21 +28,5 @@ Router.post("/create", async (req, res) => {
   }
 });
 
-Router.post("/", async (req, res) => {
-  const word = req.body.search;
-  try {
-    const cities = await CitySchema.find({});
-    const searchResult = cities.filter((e) =>
-      e.title.toLowerCase().includes(word)
-    );
-    console.log(searchResult);
-    return res.status(200).json({
-      message: " thanh cong",
-      success: true,
-      data: searchResult,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+
 module.exports = Router;

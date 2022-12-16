@@ -1,15 +1,17 @@
 const express = require("express");
 const Router = express.Router();
 const PlaceSchema = require("../model/place");
+const CitySchema = require("../model/city");
 const axios = require("axios");
+const place = require("../model/place");
 
 Router.post("/create", async (req, res) => {
   const data = req.body;
   const defaultData = {
     type: data.type,
     cityName: data.cityName,
-    cityId: data.cityId
-  }
+    cityId: data.cityId,
+  };
 
   try {
     if (!data) {
@@ -50,7 +52,7 @@ Router.post("/create", async (req, res) => {
 });
 
 Router.post("/update", async (req, res) => {
-  const id = req.body.id
+  const id = req.body.id;
   const needUpdate = req.body.needUpdate;
   console.log(needUpdate);
 
@@ -61,15 +63,14 @@ Router.post("/update", async (req, res) => {
       message: "thành công",
       data: place,
     });
-    
   } catch (err) {
     console.log(err);
-     return res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "lay danh sach dia diem không thành công",
     });
   }
-})
+});
 
 Router.post("/get-place", async (req, res) => {
   const cityId = req.body.cityId;
@@ -80,15 +81,38 @@ Router.post("/get-place", async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "thành công",
-      data: places.slice(0,10),
+      data: places.slice(0, 10),
     });
-    
   } catch (err) {
     console.log(err);
-     return res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "lay danh sach dia diem không thành công",
     });
   }
-})
+});
+
+Router.post("/", async (req, res) => {
+  const word = req.body.search;
+  try {
+    const cities = await CitySchema.find({});
+    const places = await PlaceSchema.find({});
+    const citiesResult = cities.filter((e) =>
+      e?.title?.toLowerCase().includes(word)
+    );
+    const placesResult = places.filter((e) => {
+      return (
+        e?.type === "entertainment" && e?.name?.toLowerCase().includes(word)
+      );
+    });
+    return res.status(200).json({
+      message: " thanh cong",
+      success: true,
+      data: [...citiesResult, ...placesResult],
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = Router;
