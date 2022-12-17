@@ -10,7 +10,8 @@ const PlaceSchema = new Schema({
   addressLine2: { type: String, require: true },
   coordinates: { type: Array, default: [] },
   thumbnail: { type: String, default: "" },
-  description: {type: String, default:""}
+  description: { type: String, default: "" },
+  tickets:{type: Array}
 });
 
 module.exports = mongoose.model("place", PlaceSchema);

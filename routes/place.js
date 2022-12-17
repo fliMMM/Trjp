@@ -115,4 +115,18 @@ Router.post("/", async (req, res) => {
   }
 });
 
+Router.post("/buy-ticket", async (req, res) => {
+  const data = req.body;
+  try {
+    const boughtTicket = await PlaceSchema.findByIdAndUpdate(data.placeId,{$push:{tickets:data.userId}})
+    return res.status(200).json({
+      message: " thanh cong",
+      success: true,
+      data: boughtTicket,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = Router;
