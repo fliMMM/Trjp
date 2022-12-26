@@ -72,6 +72,7 @@ Router.post("/update", async (req, res) => {
   }
 });
 
+// get place by cityId and type
 Router.post("/get-place", async (req, res) => {
   const cityId = req.body.cityId;
   const type = req.body.type;
@@ -88,6 +89,26 @@ Router.post("/get-place", async (req, res) => {
     return res.status(400).json({
       success: false,
       message: "lay danh sach dia diem không thành công",
+    });
+  }
+});
+
+//get place by id
+Router.post("/get-place-by-id", async (req, res) => {
+  const id = req.body.id;
+
+  try {
+    const place = await PlaceSchema.findById(id)
+    return res.status(200).json({
+      success: true,
+      message: "thành công",
+      data: place,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      success: false,
+      message: "lay  dia diem không thành công",
     });
   }
 });
